@@ -1,0 +1,31 @@
+
+/* Default font size for all screens */
+body {
+    font-size: 16px;
+  }
+  
+  /* Adjust font size for screens smaller than 768px */
+  @media (max-width: 768px) {
+    body {
+      font-size: 14px;
+    }
+  }
+
+  .container{padding: 0;}
+  .container-fluid{padding: 0;}
+
+  @media(max-width:800px) {
+    .display-2{
+        font-size: 25px;
+
+    }
+  }
+
+  p{
+    color: black;
+  }
+  
+
+  .btn:hover{
+    background-color: #FFD500 !important;
+  }
