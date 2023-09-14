@@ -1,8 +1,13 @@
 /********** Template CSS **********/
 :root {
     --primary: #FFD500;
+    --secondary: #FFD500
     --light: #F6F7F8;
     --dark: #1A2A36;
+}
+
+body{
+    font-family: Arial, Helvetica, sans-serif;
 }
 
 .fw-medium {
@@ -573,4 +578,17 @@
 
 .footer .copyright a:hover {
     color: #FFD500;
+}
+
+.accordion-button{
+    background-color: #FFD500;
+    color: black;
+    border-color: black;
+}
+.accordion-item{
+    border-color: rgb(237, 28, 36);
+}
+
+.accordion-item *{
+    color: black !important;
 }

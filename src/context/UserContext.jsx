@@ -1,5 +1,7 @@
 import { createContext, useState, useEffect } from "react";
 import axios from 'axios';
+import { useHistory } from 'react-router-dom';
+
 
 export const UserContext = createContext();
 export const Axios = axios.create({ baseURL: 'https://api.bindhumadhav.in/apts3_apis/' });
@@ -22,6 +24,8 @@ export const UserContextProvider = ({ children }) => {
     const [theUser, setUser] = useState(null);
     const [wait, setWait] = useState(false);
     const [curPath, setCurPath] = useState('')
+    const history = useHistory();
+
     const loginUser = async ({ username, password }) => {
         setWait(true);
         try {
@@ -31,7 +35,8 @@ export const UserContextProvider = ({ children }) => {
                 localStorage.setItem('loginToken', data.token);
                 localStorage.setItem('username', data.user_name);
                 localStorage.setItem('privilege', data.privilege)
-                loggedInCheck();
+                await loggedInCheck();
+                history.push('/dashboard');
                 setWait(false);
                 return { Success: true };
             }
@@ -53,7 +58,7 @@ export const UserContextProvider = ({ children }) => {
             console.log(data)
             if (data.success && data.user) {
                 setUser(data.user);
-                return;
+                return ;
             }
             setUser(null);
         }

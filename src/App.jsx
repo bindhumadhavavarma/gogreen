@@ -24,6 +24,7 @@ function App() {
     let routes = (
         <Switch>
             <Route path='/Login' component={Login} />
+            <Route path='/dashboard' component={Login} />
             <Route path='/SignUp' component={SignUp} />
             <Route path='/' component={Home} />
         </Switch>

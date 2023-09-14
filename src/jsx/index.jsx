@@ -9,20 +9,22 @@ import "./css/style.css"
 import "./index.css";
 
 /// Layout
-import Nav from "./layouts/Nav";
+import Navbar from "./layouts/Navbar";
 import Footer from "./layouts/Footer";
 import Home from "./pages/Home";
 import Login from "./pages/Login";
+import Dashboard from "./pages/Dashboard";
 // import Departments from "./components/Departments/Departments";
 const Markup = () => {
     const routes = [
         { url: "", component: Home },
         { url: "login", component: Login },
+        { url: "dashboard", component: Dashboard },
     ]
 
     return (
         <>
-            <Nav />
+            <Navbar />
             <div className="content-body">
                 <div className="container-fluid">
                     <Switch>
@@ -37,7 +39,6 @@ const Markup = () => {
                     </Switch>
                 </div>
             </div>
-            <Footer />
         </>
     );
 };

@@ -8,8 +8,8 @@ function Carousel() {
     return (
         <>
             <div id="carouselExampleAutoplaying" className="carousel slide" data-bs-ride="carousel">
-                <div className="carousel-inner">
-                    <div className="carousel-item active">
+                <div className="carousel-inner" style={{marginTop:"75px"}}>
+                    <div className="carousel-item active" style={{height:"calc(100vh - 75px)"}}>
                         <img src={pic1} className="d-block w-100 img-responsive" alt="Image 1"/>
                             <div className="carousel-caption d-flex flex-column justify-content-center align-items-start" style={{height:"100%",fontSize:"16px"}}>
                                 <h2 className='display-2 text-white animated slideInDown text-start'>Harnessing Renewable Energy</h2>
@@ -17,7 +17,7 @@ function Carousel() {
                                 <Link to="/SignUp" className="btn btn-primary rounded-pill py-3 px-5 animated slideInLeft">Get started</Link>
                             </div>
                     </div>
-                    <div className="carousel-item">
+                    <div className="carousel-item" style={{height:"calc(100vh - 75px)"}}>
                         <img src={pic2} className="d-block w-100" alt="Image 2"/>
                             <div className="carousel-caption d-flex flex-column justify-content-center align-items-start" style={{height:"100%"}}>
                                 <h2 className='display-2 text-white animated slideInDown text-start'>Reducing Carbon Footprints</h2>
@@ -25,7 +25,7 @@ function Carousel() {
                                 <Link to="/SignUp" className="btn btn-primary rounded-pill py-3 px-5 animated slideInLeft">Get started</Link>
                             </div>
                     </div>
-                    <div className="carousel-item">
+                    <div className="carousel-item" style={{height:"calc(100vh - 75px)"}}>
                         <img src={pic3} className="d-block w-100" alt="Image 3"/>
                             <div className="carousel-caption d-flex flex-column justify-content-center align-items-start" style={{height:"100%"}}>
                                 <h2 className='display-2 text-white animated slideInDown text-start'>Join Us in Going Green</h2>
