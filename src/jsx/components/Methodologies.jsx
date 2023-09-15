@@ -1,19 +1,59 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
+import { pushNotify } from './pushNotify'
+import { AxiosPost } from '../../context/UserContext'
 
 function Methodologies() {
+    const [emissionFactorData, setEmissionFactorData] = useState(null)
+    const [emissionData, setEmissionData] = useState(null)
+    const [isLoading, setIsLoading] = useState(false)
+
+    const fetchEmmisionFactorData = async () => {
+        try {
+            setIsLoading(true)
+            const data = await AxiosPost('getemissionfactors', { country: localStorage.getItem("country") })
+            console.log(data)
+            if (data.success) {
+                setEmissionFactorData(data.data)
+            }
+        } catch {
+            pushNotify("error", "Error", "Server Error!")
+        } finally {
+            setIsLoading(false)
+        }
+    }
+
+    const fetchEmmisionData = async () => {
+        try {
+            setIsLoading(true)
+            const data = await AxiosPost('getaverageemission', { country: localStorage.getItem("country") })
+            if (data.success) {
+                setEmissionData(data.data)
+            }
+        } catch {
+            pushNotify("error", "Error", "Server Error!")
+        } finally {
+            setIsLoading(false)
+        }
+    }
+
+    useEffect(() => {
+        fetchEmmisionData()
+        fetchEmmisionFactorData()
+    }, [])
+
     return (
         <>
-            <div class="accordion mt-5" id="accordionExample" style={{ maxWidth: "1000px" }}>
+            <div className="accordion mt-5" id="accordionExample" style={{ maxWidth: "1000px" }}>
 
-                <div class="accordion-item ">
-                    <h2 class="accordion-header">
-                        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                <div className="accordion-item ">
+                    <h2 className="accordion-header">
+                        <button className="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
                             Calculation Methodologies
                         </button>
                     </h2>
-                    <div id="collapseOne" class="accordion-collapse collapse show" data-bs-parent="#accordionExample">
-                        <div class="accordion-body">
-                        <div style={{ "font-family": "Arial, sans-serif", "font-size": "16px" }}>
+                    <div id="collapseOne" className="accordion-collapse collapse show" data-bs-parent="#accordionExample">
+                        <div className="accordion-body">
+                            <div style={{ "font-family": "Arial, sans-serif", "font-size": "16px" }}>
                                 <h2>How We Calculated Your Emissions</h2>
                                 <p>Calculating your annual carbon emissions involves considering various factors contributing to your environmental impact. We've broken down the calculation into the following steps:</p>
 
@@ -36,16 +76,16 @@ function Methodologies() {
                         </div>
                     </div>
                 </div>
-                <div class="accordion-item">
-                    <h2 class="accordion-header">
-                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
-                        Data Used and Sources 
+                <div className="accordion-item">
+                    <h2 className="accordion-header">
+                        <button className="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                            Data Used and Sources
                         </button>
                     </h2>
-                    <div id="collapseTwo" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
-                        <div class="accordion-body">
-                        <h5 className='text-capitalize'>Country specific Electricity Grid Greenhouse gas Emission Factors</h5>
-                            <table class="table">
+                    <div id="collapseTwo" className="accordion-collapse collapse" data-bs-parent="#accordionExample">
+                        <div className="accordion-body">
+                            <h5 className='text-capitalize'>Country specific Electricity Grid Greenhouse gas Emission Factors</h5>
+                            <table className="table">
                                 <thead>
                                     <tr>
                                         <th scope="col">Country</th>
@@ -56,17 +96,20 @@ function Methodologies() {
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr>
-                                        <th scope="row">Afghanistan</th>
-                                        <td>0.12410</td>
-                                        <td>0.10441</td>
-                                        <td>0.01968</td>
-                                        <td>Carbon Footprint Ltd's GHG Factors for International Grid Electricity (ROW) 2023</td>
-                                    </tr>
+                                    {emissionFactorData == null ? null :
+                                        <tr>
+                                            <th scope="row">{emissionFactorData.country}</th>
+                                            <td>{emissionFactorData.totalProdFuel}</td>
+                                            <td>{emissionFactorData.generation}</td>
+                                            <td>{emissionFactorData.transAndDist}</td>
+                                            <td>{emissionFactorData.source}</td>
+                                        </tr>
+                                    }
+
                                 </tbody>
                             </table>
                             <h5 className='text-capitalize'>Country wise Per Capita CO2 Emmissions</h5>
-                            <table class="table">
+                            <table className="table">
                                 <thead>
                                     <tr>
                                         <th scope="col">Country</th>
@@ -75,25 +118,27 @@ function Methodologies() {
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr>
-                                        <th scope="row">Afghanistan</th>
-                                        <td>7.44</td>
-                                        <td>10,432,751,400</td>
-                                    </tr>
+                                    {emissionData == null ? null :
+                                        <tr>
+                                            <th scope="row">{emissionData.country}</th>
+                                            <td>{emissionData.emissionPerCapita}</td>
+                                            <td>{emissionData.emission}</td>
+                                        </tr>
+                                    }
                                 </tbody>
                             </table>
-                            
+
                         </div>
                     </div>
                 </div>
-                <div class="accordion-item">
-                    <h2 class="accordion-header">
-                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                <div className="accordion-item">
+                    <h2 className="accordion-header">
+                        <button className="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
                             Next Steps for Reductions
                         </button>
                     </h2>
-                    <div id="collapseThree" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
-                        <div class="accordion-body">
+                    <div id="collapseThree" className="accordion-collapse collapse" data-bs-parent="#accordionExample">
+                        <div className="accordion-body">
                             <div style={{ "font-family": "Arial, sans-serif", "font-size": "16px" }}>
                                 <h2>Take Action: Go Green and Reduce Your Carbon Footprint</h2>
 

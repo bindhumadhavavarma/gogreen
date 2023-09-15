@@ -17,13 +17,13 @@ function Home() {
     <Navbar></Navbar>
       <Carousel></Carousel>
       <About></About>
-      <div class="container-xxl py-5" id="team">
-        <div class="container">
-            <div class="text-center mx-auto mb-5 wow fadeInUp" data-wow-delay="0.1s" style={{"max-width": "600px"}}>
-                <h6 class="text-primary">Team Members</h6>
-                <h1 class="mb-4"><span style={{color:"#ED1C24"}}>Go</span><span style={{color:"#FFD500"}}>Green</span> Team Members</h1>
+      <div className="container-xxl py-5" id="team">
+        <div className="container">
+            <div className="text-center mx-auto mb-5 wow fadeInUp" data-wow-delay="0.1s" style={{"max-width": "600px"}}>
+                <h6 className="text-primary">Team Members</h6>
+                <h1 className="mb-4"><span style={{color:"#ED1C24"}}>Go</span><span style={{color:"#FFD500"}}>Green</span> Team Members</h1>
             </div>
-            <div class="row g-4 justify-content-center">
+            <div className="row g-4 justify-content-center">
                 <TeamCard img={pic1} fullname="Bindhu Madhava Varma" designation="Associate Software Engineer"></TeamCard>
                 <TeamCard img={pic2} fullname="Tangilla Esha Srinidhi" designation="Associate Software Engineer"></TeamCard>
                 <TeamCard img={pic3} fullname="Saumya Jain" designation="Associate Software Engineer"></TeamCard>

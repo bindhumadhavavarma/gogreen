@@ -9,7 +9,7 @@ function BarPlot1(props) {
     datasets: [
       {
         label: 'Kg of CO2 Emmision',
-        data: [props.result+10, props.result+100, props.result+150],
+        data: [props.result, props.percapitaemission, 4790],
         borderWidth: 1,
         backgroundColor:"#FFD500",
       }
@@ -38,7 +38,7 @@ function BarPlot1(props) {
       <div className='p-3 text-black' style={{color:"black"}}>
           <ul>
             <li>Your footprint is {props.result}KG per year</li>
-            <li>The average footprint for people in your country is {1800} Kilograms</li>
+            <li>The average footprint for people in your country is {props.percapitaemission} Kilograms</li>
             <li>The average for the European Union is about 6.8 metric tons</li>
             <li>The average worldwide carbon footprint is about 4.79 metric tons</li>
             <li>The worldwide target to combat climate change is 0 metric tons</li>

@@ -1,231 +1,59 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Results from './Results'
+import { AxiosGet, AxiosPost } from '../../context/UserContext'
+import { pushNotify } from './pushNotify'
+import { ScaleLoader } from 'react-spinners'
 
 function CalculatorForm(props) {
-    const countries = [
-        "Afghanistan",
-        "Albania",
-        "Algeria",
-        "American Samoa",
-        "Angola",
-        "Antigua and Barbuda",
-        "Argentina",
-        "Armenia",
-        "Aruba",
-        "Australia",
-        "Austria",
-        "Azerbaijan",
-        "Bahamas",
-        "Bahrain",
-        "Bangladesh",
-        "Barbados",
-        "Belarus",
-        "Belgium",
-        "Belize",
-        "Benin",
-        "Bhutan",
-        "Bolivia",
-        "Bosnia & Herzegovina",
-        "Bosnia and Herzegovina",
-        "Botswana",
-        "Brazil",
-        "British Virgin Islands",
-        "Brunei",
-        "Bulgaria",
-        "Burkina Faso",
-        "Burundi",
-        "Cambodia",
-        "Cameroon",
-        "Canada",
-        "Cape Verde",
-        "Cayman Islands",
-        "Central African Republic",
-        "Chad",
-        "Chile",
-        "China",
-        "Colombia",
-        "Comoros",
-        "Congo",
-        "Cook Islands",
-        "Costa Rica",
-        "Cote d'Ivoire",
-        "Croatia",
-        "Cuba",
-        "Cyprus",
-        "Czech Republic",
-        "Czechia",
-        "Democratic Republic of Congo",
-        "Denmark",
-        "Djibouti",
-        "Dominica",
-        "Dominican Republic",
-        "Ecuador",
-        "Egypt",
-        "El Salvador",
-        "Equatorial Guinea",
-        "Eritrea",
-        "Estonia",
-        "Eswatini",
-        "Ethiopia",
-        "Falkland Islands",
-        "Faroe Islands",
-        "Fiji",
-        "Finland",
-        "France",
-        "French Guiana",
-        "French Polynesia",
-        "Gabon",
-        "Gambia",
-        "Georgia",
-        "Germany",
-        "Ghana",
-        "Greece",
-        "Greenland",
-        "Grenada",
-        "Guadeloupe",
-        "Guam",
-        "Guatemala",
-        "Guinea",
-        "Guinea-Bissau",
-        "Guyana",
-        "Haiti",
-        "Honduras",
-        "Hong Kong",
-        "Hong Kong",
-        "Hungary",
-        "Iceland",
-        "India",
-        "Indonesia",
-        "Iran",
-        "Iraq",
-        "Ireland",
-        "Israel",
-        "Italy",
-        "Jamaica",
-        "Japan",
-        "Jordan",
-        "Kazakhstan",
-        "Kenya",
-        "Kiribati",
-        "Kuwait",
-        "Kyrgyzstan",
-        "Laos",
-        "Latvia",
-        "Lebanon",
-        "Lesotho",
-        "Liberia",
-        "Libya",
-        "Lithuania",
-        "Luxembourg",
-        "Macao",
-        "Madagascar",
-        "Malawi",
-        "Malaysia",
-        "Maldives",
-        "Mali",
-        "Malta",
-        "Martinique",
-        "Mauritania",
-        "Mauritius",
-        "Mexico",
-        "Moldova",
-        "Mongolia",
-        "Montenegro",
-        "Montenegro",
-        "Montserrat",
-        "Morocco",
-        "Mozambique",
-        "Myanmar",
-        "Namibia",
-        "Nauru",
-        "Nepal",
-        "Netherlands",
-        "New Caledonia",
-        "New Zealand",
-        "Nicaragua",
-        "Niger",
-        "Nigeria",
-        "North Korea",
-        "North Macedonia",
-        "Norway",
-        "Oman",
-        "Pakistan",
-        "Palestine",
-        "Panama",
-        "Papua New Guinea",
-        "Paraguay",
-        "Peru",
-        "Philippines",
-        "Poland",
-        "Portugal",
-        "Puerto Rico",
-        "Qatar",
-        "Reunion",
-        "Romania",
-        "Russia",
-        "Rwanda",
-        "Saint Kitts and Nevis",
-        "Saint Lucia",
-        "Saint Pierre and Miquelon",
-        "Saint Vincent and the Grenadines",
-        "Samoa",
-        "Sao Tome and Principe",
-        "Saudi Arabia",
-        "Senegal",
-        "Serbia",
-        "Seychelles",
-        "Sierra Leone",
-        "Singapore",
-        "Slovakia",
-        "Slovenia",
-        "Solomon Islands",
-        "Somalia",
-        "South Africa",
-        "South Korea",
-        "South Sudan",
-        "Spain",
-        "Sri Lanka",
-        "Sudan",
-        "Suriname",
-        "Sweden",
-        "Switzerland",
-        "Syria",
-        "Taiwan",
-        "Tajikistan",
-        "Tanzania",
-        "Thailand",
-        "Togo",
-        "Tonga",
-        "Trinidad and Tobago",
-        "Tunisia",
-        "Turkey",
-        "Turkmenistan",
-        "Turks and Caicos Islands",
-        "Uganda",
-        "Ukraine",
-        "United Arab Emirates",
-        "United Kingdom",
-        "United States",
-        "United States Virgin Islands",
-        "Uruguay",
-        "Uzbekistan",
-        "Vanuatu",
-        "Venezuela",
-        "Vietnam",
-        "Western Sahara",
-        "Yemen",
-        "Zambia",
-        "Zimbabwe",
-    ]
+    const [countries, setCountries] = useState([])
+    const [isLoading, setIsLoading] = useState(true)
     const [formData, setFormData] = useState({ country: "", energy: "" })
+    const [carbonFactor, setCarbonFactor] = useState(null)
 
     const onChangeInput = (e) => {
         setFormData({ ...formData, [e.target.name]: e.target.value })
+        if (e.target.name == "country") localStorage.setItem("country", e.target.value)
     }
 
-    const submitHandler = (e) => {
+    const fetchCountryEmission = async () => {
+
+    }
+
+    const fetchCountries = async () => {
+        try {
+            setIsLoading(true)
+            const data = await AxiosGet('getcountrylist')
+            console.log(data)
+            if (data.success) {
+                setCountries(data.country_list)
+            } else {
+                pushNotify("error", "Error", data.message)
+            }
+        } catch {
+            pushNotify("error", "Error", "Server Error!")
+        }
+    }
+
+    useEffect(() => {
+        fetchCountries()
+    }, [])
+
+    const submitHandler = async (e) => {
         e.preventDefault()
-        props.setResult(formData.energy * 0.3)
+        setIsLoading(true)
+        try {
+            setIsLoading(true)
+            const data = await AxiosPost("getemissionfactors", { country: localStorage.getItem("country") })
+            console.log("countryemission")
+            console.log(data)
+            setCarbonFactor(data.data.totalProdFuel)
+            console.log("carbonfactor : " + carbonFactor)
+            props.setResult((formData.energy * data.data.totalProdFuel).toFixed(2))
+        } catch {
+            pushNotify("error", "Error", "Server Error")
+        } finally {
+            setIsLoading(false)
+        }
     }
     return (
         <>
@@ -236,7 +64,7 @@ function CalculatorForm(props) {
                         <form className='m-3' onSubmit={submitHandler}>
                             <div className=" g-3 col-12">
                                 <div className="col-12 col-sm-6">
-                                    <select className='form-control border-0' value={formData.country} name="country" placeholder='country/Region' style={{ "height": "55px", width: "300px" }}>
+                                    <select className='form-control border-0' value={formData.country} onChange={onChangeInput} name="country" placeholder='country/Region' style={{ "height": "55px", width: "300px" }}>
                                         {
                                             countries.map((country) => { return (<option className='form-control' value={country}>{country}</option>) })
                                         }
@@ -246,14 +74,14 @@ function CalculatorForm(props) {
                                     <input type="text" value={formData.energy} className="form-control border-0" placeholder="Energy Consumption in Kwh per year" name='energy' onChange={onChangeInput} style={{ "height": "55px", width: "300px" }} />
                                 </div>
                                 <div className="col-12 mt-3">
-                                    <button className="btn btn-secondary rounded-pill py-3 px-5" style={{ width:"100%",backgroundColor:"rgb(255, 213, 0)",color:"black" }} type="submit">Calculate</button>
+                                    <button className="btn btn-secondary rounded-pill py-3 px-5" style={{ width: "100%", backgroundColor: "rgb(255, 213, 0)", color: "black" }} type="submit">Calculate</button>
                                 </div>
                             </div>
                         </form>
 
                     </div>
                     {
-                        props.result == null ? null : <Results result={props.result}></Results>
+                        props.result == null ? null : isLoading ? <ScaleLoader cssOverride={{ "display": "flex", "justifyContent": "center", "alignItems": "center", marginTop: "100px" }} /> : <Results result={props.result}></Results>
                     }
                 </div>
             </div>
