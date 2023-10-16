@@ -1,6 +1,6 @@
-import { lazy, Suspense, useContext, useEffect } from 'react';
+import { Suspense, useContext, useEffect } from 'react';
 
-/// Components
+/// Componentszcxvzvmmm
 import Index from "./jsx";
 import { Route, Switch } from 'react-router-dom';
 // action
