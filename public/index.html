@@ -8,6 +8,12 @@
   <meta name="theme-color" content="#000000" />
   <meta name="description" content="Web site created using create-react-app" />
   <link rel="apple-touch-icon" href="%PUBLIC_URL%/logo192.png" />
+  <link href="./libs/slick-carousel/slick/slick.css" rel="stylesheet"/>
+  <link href="./libs/slick-carousel/slick/slick-theme.css" rel="stylesheet" />
+  <link href="./libs/tiny-slider/dist/tiny-slider.css" rel="stylesheet">
+  <link href="../assets/libs/nouislider/dist/nouislider.min.css" rel="stylesheet">
+  <link href="./css/theme.min.css" rel="stylesheet">
+  
   <!--
       manifest.json provides metadata used when your web app is installed on a
       user's mobile device or desktop. See https://developers.google.com/web/fundamentals/web-app-manifest/
@@ -22,9 +28,7 @@
       work correctly both with client-side routing and a non-root public URL.
       Learn how to configure a non-root public URL by running `npm run build`.
     -->
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"
-    crossorigin="anonymous"></script>
-  <title>React App</title>
+  <title>Siya Brand</title>
 </head>
 
 <body>
@@ -41,5 +45,26 @@
       To create a production bundle, use `npm run build` or `yarn build`.
     -->
 </body>
+<script src="./libs/jquery/dist/jquery.min.js"></script>
+<script src="./libs/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+<script src="./libs/simplebar/dist/simplebar.min.js" defer></script>
+
+<!-- Theme JS -->
+<script src="./js/theme.min.js" defer></script>
+<script src="./libs/jquery-countdown/dist/jquery.countdown.min.js" defer></script>
+<script src="./js/vendors/countdown.js" defer></script>
+<script src="./libs/slick-carousel/slick/slick.min.js" defer></script>
+<script src="./js/vendors/slick-slider.js" defer></script>
+<script src="./libs/tiny-slider/dist/min/tiny-slider.js" defer></script>
+<script src="./js/vendors/tns-slider.js" defer></script>
+<script src="./js/vendors/zoom.js" defer></script>
+<script src="./js/vendors/increment-value.js" defer></script>
+<script src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js" ></script>
+<script defer>
+  $(window).bind("load", function() { 
+  console.log("working")
+  feather.replace();
+});
+</script>
 
 </html>
