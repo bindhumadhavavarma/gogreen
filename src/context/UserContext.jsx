@@ -5,7 +5,7 @@ import { pushNotify } from "../jsx/components/pushNotify";
 
 
 export const UserContext = createContext();
-export const Axios = axios.create({ baseURL: 'http://localhost/siyabrands' });
+export const Axios = axios.create({ baseURL: 'http://13.233.118.75:8080/api/' });
 
 
 export const AxiosPost = async (apiname, body) => {
@@ -22,8 +22,6 @@ export const AxiosGet = async (apiname) => {
 
 
 export const UserContextProvider = ({ children }) => {
-    const [categoryFilter,setCategoryFilter] = useState("All Products")
-    const [searchFilter,setSearchFilter] = useState("")
     const [theUser, setUser] = useState(null);
     const [wait, setWait] = useState(false);
     const [curPath, setCurPath] = useState('')
@@ -32,15 +30,14 @@ export const UserContextProvider = ({ children }) => {
     const loginUser = async ({ username, password }) => {
         setWait(true);
         try {
-            const {data} = await Axios.post('login.php', { username:username, password:password });
+            const {data} = await Axios.post('/auth/login', { Username:username, Password:password });
             console.log(data);
             if (data.success && data.token) {
                 localStorage.setItem('loginToken', data.token);
                 localStorage.setItem('username', data.username);
                 localStorage.setItem('privilege', data.privilege)
                 await loggedInCheck();
-                history.push('/');
-                window.location.reload(true)
+                history.push('/dashboard');
                 setWait(false);
                 return { Success: true };
             }
@@ -59,7 +56,7 @@ export const UserContextProvider = ({ children }) => {
         Axios.defaults.headers.common['Authorization'] = 'Bearer ' + loginToken;
         if (loginToken) {
             try{
-                const { data } = await Axios.get('getUser.php');
+                const { data } = await Axios.get('auth/validate');
                 console.log(data)
                 if (data.success) {
                     setUser(localStorage.getItem('username'));
@@ -84,7 +81,7 @@ export const UserContextProvider = ({ children }) => {
     }
 
     return (
-        <UserContext.Provider value={{ loginUser, wait, user: theUser, loggedInCheck, logout, curPath, setCurPath ,categoryFilter,setCategoryFilter,searchFilter,setSearchFilter}}>
+        <UserContext.Provider value={{ loginUser, wait, user: theUser, loggedInCheck, logout, curPath, setCurPath }}>
             {children}
         </UserContext.Provider>
     );

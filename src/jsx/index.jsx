@@ -3,30 +3,25 @@ import React, { useContext, useEffect } from "react";
 /// React router dom
 import { Switch, Route } from "react-router-dom";
 
+/// Css
+import "./css/bootstrap.min.css"
+import "./css/style.css"
+import "./index.css";
 
 /// Layout
 import Navbar from "./layouts/Navbar";
 import Footer from "./layouts/Footer";
-import Home from "./pages/Home/Home";
-import Login from "./pages/Login/Login";
-import Shop from "./pages/Shop/Shop";
-import SignUp from "./pages/SignUp/SignUp";
-import ProductPage from "./pages/ProductPage/ProductPage";
-import Account from "./pages/Account/Account";
-import Cart from "./pages/Cart/Cart";
-import Orders from "./pages/Orders/Orders";
+import Home from "./pages/Home";
+import Login from "./pages/Login";
+import Dashboard from "./pages/Dashboard";
 // import Departments from "./components/Departments/Departments";
 const Markup = () => {
     const routes = [
         { url: "", component: Home },
         { url: "login", component: Login },
-        { url: "signup", component: SignUp },
-        { url: "productpage", component: ProductPage },
-        { url: "account", component: Account },
-        { url: "cart", component: Cart },
-        { url: "orders", component: Orders },
-        { url: "shop", component: Shop },
+        { url: "dashboard", component: Dashboard },
     ]
+
     return (
         <>
             <Navbar />
@@ -44,7 +39,6 @@ const Markup = () => {
                     </Switch>
                 </div>
             </div>
-            <Footer></Footer>
         </>
     );
 };
